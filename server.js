@@ -1,13 +1,13 @@
-var express = require('express');
 var http = require('http');
-var index = require('index.html');
+var fs = require('fs');
 var port = process.env.PORT || 1337;
+ 
+http.createServer(function (request, response) {
+    fs.readFile('index.html', function (err, data){
+       if (err) {
+       	response.end("File wasn't found");
+       }
+        response.end(data);
+    });
+}).listen(port);
 
-  var app = express();
-  // Куча всяких настроек express`а        
-   
-  app.get('/', index );
-
-  http.createServer(app).listen(port, function(){
-    console.log('Express server listening on port ' + port);
-  });
