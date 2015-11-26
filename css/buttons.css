@@ -1,0 +1,115 @@
+.button {
+    opacity: 0.7;
+}
+
+.button:hover {
+    opacity: 1;
+}
+
+.button.header-tool {
+    background-color: transparent;
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.button.footer-tool {
+    background-color: transparent;
+    
+    padding: 10px;
+    margin: 0px;
+}
+
+.button.small > img {
+    height: 35px;
+    width: 35px;
+}
+
+.button.tiny > img {
+    height: 20px;
+    width: 20px;
+}
+
+/* Main nav buttons */
+.nav-btn {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    width: 100%;
+    height: 180px;
+    
+    margin-bottom: 10px;
+    padding: 0px;
+    
+    opacity: 1.0;
+}
+
+a.nav-btn:link, a.nav-btn:active, a.nav-btn:visited {
+    opacity: 1.0;
+}
+
+a.nav-btn:hover {
+    opacity: 0.7;
+}
+
+.nav-btn > h6 {
+    visibility: hidden;
+    width: 100%;
+    
+    font-family: 'Noto Serif', sans-serif;
+    font-weight: 600;
+    font-size: 1.2em;
+    
+    margin-top: 70px;
+}
+
+.nav-btn:hover {
+    opacity: 0.7;
+}
+
+.nav-btn:hover > h6 {
+    visibility: visible;
+    background-color: #686868;
+    color: white;
+}
+
+#about-me-nav-btn {
+    background-image: url("../resources/buttons/me.jpg");
+}
+
+#gallery-nav-btn {
+    background-image: url("../resources/buttons/gallery.jpg");
+}
+
+#work-nav-btn {
+    background-image: url("../resources/buttons/worktable.jpg");
+}
+
+#resume-nav-btn {
+    background-image: url("../resources/buttons/resume.jpg");
+}
+
+#books-nav-btn {
+    background-image: url("../resources/buttons/books.jpg");
+}
+
+#guestbook-nav-btn {
+    background-image: url("../resources/buttons/guestbook.jpg");
+}
+
+.tool {
+    background-color: transparent;
+    opacity: 1;
+    
+    float: right;
+    margin-bottom: 0px;
+}
+
+.tool:hover {
+    background-color: transparent;
+    opacity: 1;
+}

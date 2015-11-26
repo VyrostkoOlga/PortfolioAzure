@@ -1,0 +1,91 @@
+body {
+    background-color: #525252;
+    /* font-size: 30px; */
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #252525;
+}
+
+.tooltip:after {
+    font-weight: 600;
+}
+
+#hero {
+    background-image: url("../resources/background.jpg");
+
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: cover;
+    -webkit-font-smoothing: antialiased;
+    background-attachment: scroll;
+    width: auto;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: cover;
+    box-sizing: border-box;
+    display: block;
+    
+    height: 830px;
+}
+
+@media screen and ( max-width: 1100px ) {
+    #hero {
+        background-image: url("../resources/background1000.jpg");
+    }
+}
+
+@media screen and ( max-width: 550px ) {
+    #hero {
+        background-image: url("../resources/background400.jpg");
+    }
+}
+
+main {
+    min-height: 300px;
+}
+
+.content-wrapper {
+    min-height: 300px;
+    margin-bottom: 100px;
+}
+
+.main-header-row {
+    text-align: center;
+    margin-top: 580px;
+}
+
+header h1 {
+    font-weight: 500;
+    /* font-size: 30px; */
+    font-family: 'Noto Serif', sans-serif;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #252525;
+    opacity: 0.7;
+    
+    line-height: 1.5em;
+}
+
+header h5 {
+    font-weight: 500;
+    /* font-size: 30px; */
+    font-family: 'Noto Serif', sans-serif;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #252525;
+    opacity: 0.7;
+    
+    line-height: 1.4em;
+}
+
+header h1:hover, header h5:hover {
+    opacity: 1.0;
+    color: #FFFFFF;
+    cursor: default;
+}
+
+nav .large-4 {
+    padding-left: 5px;
+    padding-right: 5px;
+}

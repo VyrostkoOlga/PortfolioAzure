@@ -1,0 +1,45 @@
+.four {
+    width: 326px;
+}
+
+.three {
+    width: 245px;
+}
+
+.two {
+    width: 490px;
+}
+
+.header .header-tool {
+    display: inline-block;
+}
+
+#page-header {
+    display: inline-block;
+}
+
+#name-header {
+    display: inline-block;
+}
+
+input {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+}
+
+/*
+.image-wrapper img {
+    max-width: 300px;
+    max-height: 300px;
+}
+*/
+
+/*
+img {
+    max-height: 70%;
+    max-width: 70%;
+}
+*/

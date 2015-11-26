@@ -1,0 +1,38 @@
+.row {
+    margin-bottom: 50px;
+}
+
+.footer .row {
+    margin-bottom: 0px;
+}
+
+.modal .row {
+    margin-bottom: 0px;
+}
+
+div p {
+    font-family: "Noto Serif", sans-serif;
+    color: #8a8a8a;
+}
+
+div.right {
+    text-align: right;
+}
+
+.direction {
+    opacity: 0.7;
+}
+
+.direction-left {
+    float: right;
+}
+
+@media screen and (max-width: 700px) {
+    .direction {
+        display: none;
+    }
+    
+    img {
+        max-height: 500px;
+    }
+}

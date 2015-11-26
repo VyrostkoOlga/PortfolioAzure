@@ -1,0 +1,33 @@
+.content-wrapper {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+main .header {
+    /*background-color: #CFCFCF;*/
+    
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+main label {
+    font-weight: 600;
+    font-size: 1.2em;
+    font-family: 'Noto Serif', sans-serif;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    
+    color: #8b8b8b;
+    text-align: right;
+}
+
+.content-wrapper .last-content-row {
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.content-wrapper img {
+    height: 280px;
+    margin-bottom: 20px;
+}

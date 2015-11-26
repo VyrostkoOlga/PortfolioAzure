@@ -1,0 +1,44 @@
+.content-wrapper .row {
+    padding-top: 1%;
+}
+
+.grid .center {
+    padding-top: 5%;
+}
+
+.grid .image-wrapper:hover {
+    z-index: 2;
+	-webkit-transform: scale(1.2) translateY(-40px);	
+	-moz-transform: scale(1.2) translateY(-40px);	
+	-ms-transform: scale(1.2) translateY(-40px);	
+	transform: scale(1.2) translateY(-40px);	
+	-webkit-box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.grid .image-wrapper {
+    margin-bottom: 5px;
+}
+
+.image-wrapper .button {
+    opacity: 1;
+    
+    position: relative;
+    bottom: 20px;
+}
+
+.modal:target {
+    display: inline-block;
+    opacity: 1;
+}
+
+.modal p {
+    font-family: "Noto Serif", sans-serif;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+.undisplay-image-full-view {
+    display: none;
+}

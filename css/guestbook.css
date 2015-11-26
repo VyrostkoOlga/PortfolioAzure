@@ -1,0 +1,83 @@
+.guestbook-page {
+    background-image: url("../resources/paper.png" );
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: cover;
+    -webkit-font-smoothing: antialiased;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: cover;
+    box-sizing: border-box;
+    
+    height: 270px;
+    
+    border: 10px solid #525252;
+    
+    font-family: "Noto Serif", sans-serif;
+    
+    margin-bottom: 3%;
+    padding-top: 3%;
+}
+
+.guestbook-page textarea, .guestbook-page p {
+    font-family: "Noto Serif", sans-serif;
+}
+
+#add-page {
+    padding-top: 0%;
+}
+
+#add-page-form {
+    display: none;
+    margin-top: 20px;
+}
+
+#guestbook-page-proto {
+    padding-top: 3%;
+    
+    display: none;
+}
+
+.guestbook-page textarea {
+    padding: 2%;
+    overflow-y: scroll;
+}
+
+.guestbook-page #user-name {
+    float: right;
+    
+    font-weight: 800;
+}
+
+.first-content-row {
+    background-image: url("../resources/paper.png" );
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: cover;
+    -webkit-font-smoothing: antialiased;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: cover;
+    box-sizing: border-box;
+    
+    border: 10px solid #525252;
+    
+    margin-bottom: 30px;
+}
+
+.first-content-row p {
+    color: #525252;
+    
+    font-family: "Noto Serif", sans-serif;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.first-content-row a:link, .first-content-row a:visited, .first-content-row a:active, .first-content-row a:hover {
+    color: #525252;
+    font-family: "Noto Serif", sans-serif;
+}
