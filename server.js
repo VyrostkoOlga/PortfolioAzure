@@ -43,7 +43,7 @@ var server = app.listen(port, function () {
   console.log('Server running at http://%s:%s', host, port);
 });
 */
-app.listen( port, function( req, res ) {
+var server = app.listen( port, function( req, res ) {
   var host = server.address().address,
       port = server.address().port;
   console.log('Server running at http://%s:%s', host, port);
