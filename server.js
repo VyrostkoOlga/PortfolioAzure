@@ -27,6 +27,10 @@ app.get( '/', function( req, res ) {
     res.render( 'index' );
 });
 
+app.get( '/about', function( req, res ) {
+    res.render( 'about' );
+});
+
 
 var port = process.env.port || 8080;
 var server = app.listen( port, function( req, res ) {
