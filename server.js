@@ -39,6 +39,22 @@ app.get( '/guestbook', function( req, res ) {
     res.render( 'guestbook' );
 });
 
+app.get( '/news', function( req, res ) {
+    res.render( 'news' );
+});
+
+app.get( '/registration', function( req, res ) {
+    res.render( 'registration' );
+});
+
+app.get( '/resume', function( req, res ) {
+    res.render( 'resume' );
+});
+
+app.get( '/works', function( req, res ) {
+    res.render( 'works' );
+});
+
 var port = process.env.port || 8080;
 var server = app.listen( port, function( req, res ) {
   var host = server.address().address,
