@@ -3,6 +3,7 @@ var express = require( 'express' );
 var bodyParser = require( 'body-parser' );
 var handlebars = require( 'express-handlebars' ).create( );
 var http = require( 'http' );
+var mysql = require( 'mysql' );
 
 configure = function( app ) {
     //Настраиваем bodyParser
@@ -21,6 +22,17 @@ configure = function( app ) {
 
 var app = express.createServer( );
 configure( app );
+
+var connection = mysql.createConnection({
+    host     : 'br-cdbr-azure-south-a.cloudapp.net',
+    userId   : 'b6c0eb62a12a31',
+    password : '18af9f20',
+    database : 'olgavyrostko' 
+});
+
+connection.connect(function(err) {
+  console.log( 'error' );
+});
 
 //Запуск и обработчики возможных запросов
 app.get( '/', function( req, res ) {
@@ -47,6 +59,9 @@ app.get( '/registration', function( req, res ) {
     res.render( 'registration' );
 });
 
+app.post( '/registration', function( req, res ) {
+});
+
 app.get( '/resume', function( req, res ) {
     res.render( 'resume' );
 });
@@ -56,6 +71,8 @@ app.get( '/works', function( req, res ) {
 });
 
 app.get( '/userCab', function( req, res ) {
+    var name = req.query.login;
+    console.log( name );
     res.render( 'privateCab', { 'imagePath': "resources/background.jpg", 'name': 'Olga', 'sirname': 'Vyrostko' });
 });
 

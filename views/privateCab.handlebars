@@ -25,7 +25,7 @@
         <!-- custom -->
         <link rel="stylesheet" type="text/css" href="css/buttons.css" />
         <link rel="stylesheet" type="text/css" href="css/min.css" />
-        <link rel="stylesheet" type="text/css" href="css/registration.css" />
+        <link rel="stylesheet" type="text/css" href="css/privateCab.css" />
         
         <!--[if lt IE 9]>
 	       <link rel="stylesheet" href="css/newsIE8.css">
@@ -76,14 +76,17 @@
         </div>
         <main>
             <div class="content-wrapper">
-                <div class="row">
-                    <div class="three small-12 medium-3 large-3 columns">
+                <div class="row first-content-row">
+                    <div class="twelve small-12 medium-12 large-12 columns">
                         <img src="{{imagePath}}" />
                     </div>
-                    <div class="nine small-12 medium-9 small-9 columns">
-                        <p>{{name}}</p>
-                        <p>{{sirname}}</p>
+                </div>
+                <div class="row">
+                    <div class="six small-12 medium-12 large-12 columns content-center">
+                        <h4>{{name}} {{sirname}}</h4>
                     </div>
+                </div>
+                <div class="row last-content-row">
                 </div>
             </div>
         </main>
