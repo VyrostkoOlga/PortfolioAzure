@@ -35,8 +35,8 @@
         <link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         
         <!-- Scripts -->
-        <!--script src="js/min.js"></script-->
-        <!--script src="js/index.js"></script-->
+        <script src="js/min.js"></script>
+        <script src="js/index.js"></script>
     </head>
     <body onkeydown="keydownCallbackMin( event )">
         <div class="header">
@@ -149,14 +149,15 @@
             <div class="row modal-wrapper">
                 <div class="row">
                     <div class="twelve small-12 medium-12 large-12 columns">
-                        <a onclick="closeModal( event )" href="#" class="close tool">
+                        <a onclick="makeLoginInvisible( )" href="#" class="close tool">
                             <img src="resources/icons/close33.png" />
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="twelve small-12 medium-12 large-12 columns">
-                        <form action="/userCab">
+                        <form action="/userCab" method="post">
+                            <input type="hidden" name="_csrf" value={{token}} />
                             <div class="row">
                                 <div class="twelve small-12 medium-12 large-12 columns">
                                     <input name="login" id="login" type="text" placeholder="Your email or login" required />

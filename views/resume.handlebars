@@ -240,7 +240,8 @@
                 </div>
                 <div class="row">
                     <div class="twelve small-12 medium-12 large-12 columns">
-                        <form action="#">
+                        <form action="/userCab" method="post">
+                            <input type="hidden" name="_csrf" value={{token}} />
                             <div class="row">
                                 <div class="twelve small-12 medium-12 large-12 columns">
                                     <input name="login" id="login" type="text" placeholder="Your email or login" required />
@@ -258,7 +259,7 @@
                             </div>
                             <div class="row">
                                 <div class="twelve small-12 medium-12 large-12 columns">
-                                    <a onclick="makeLoginInvisible( )" href="registration" id="log-in-modal-register" class="button small">Register</a>
+                                    <a onclick="makeLoginInvisible( )" href="/registration" id="log-in-modal-register" class="button small">Register</a>
                                 </div>
                             </div>
                         </form>

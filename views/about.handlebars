@@ -34,8 +34,8 @@
         <link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         
         <!-- Scripts -->
-	    <script src="js/about.js"></script>
         <script src="js/min.js"></script>
+	    <script src="js/about.js"></script>
     </head>
     <body onkeydown="keydownCallbackMin( event )">
         <div class="header" onmouseover="showPageTitle( )"  onmouseout="showNameTitle( )">
@@ -160,7 +160,8 @@
                 </div>
                 <div class="row">
                     <div class="twelve small-12 medium-12 large-12 columns">
-                        <form action="#">
+                        <form action="/userCab" method="post">
+                            <input type="hidden" name="_csrf" value={{token}} />
                             <div class="row">
                                 <div class="twelve small-12 medium-12 large-12 columns">
                                     <input name="login" id="login" type="text" placeholder="Your email or login" required />

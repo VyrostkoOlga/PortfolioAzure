@@ -38,17 +38,13 @@
         <script src="js/min.js"></script>
     </head>
     <body onkeydown="keydownCallbackMin( event )">
-        <div class="header" onmouseover="showPageTitle( )"  onmouseout="showNameTitle( )">
+        <div class="header">
             <header>
                 <div class="row">
                     <div class="twelve small-12 medium-12 large-12 columns">
                         <div id="hidden-menu">
-                            <h3 id="name-header">Olga Vyrostko</h3>
-                            <h3 id="page-header">Registration</h3>
+                            <h3>{{name}} {{sirname}}</h3>
                             <div class="header-tools">
-                                <a onclick="makeLoginVisible( )" href="#log-in-modal" class="button small header-tool tooltip" data-tooltip="Log In">
-                                    <img src="resources/icons/user60.png" alt="User"/>
-                                </a>
                                 <a href="#" class="button small header-tool tooltip" id="show-menu-action" data-tooltip="Show menu" onclick="showMenu( )">
                                     <img src="resources/icons/menu-bold.png" alt="Menu"/>
                                 </a>
@@ -83,7 +79,7 @@
                 </div>
                 <div class="row">
                     <div class="six small-12 medium-12 large-12 columns content-center">
-                        <h4>{{name}} {{sirname}}</h4>
+                        <h4></h4>
                     </div>
                 </div>
                 <div class="row last-content-row">
