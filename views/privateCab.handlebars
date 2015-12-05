@@ -76,45 +76,15 @@
         </div>
         <main>
             <div class="content-wrapper">
-                <form action="index">
-                    <div class="row first-content-row">
-                        <div class="six small-12 medium-6 large-6 columns">
-                            <img src="resources/Registration1.jpg" alt=""/>
-                        </div>
-                        <div class="six small-12 medium-6 large-6 columns">
-                            <img src="resources/Registration2.jpg" alt=""/>
-                        </div>
+                <div class="row">
+                    <div class="three small-12 medium-3 large-3 columns">
+                        <img src={{imagePath}}/>
                     </div>
-                    <div class="row">
-                        <div class="six small-12 medium-12 large-6 columns">
-                            <input type="text" name="name" placeholder="Имя" required/>
-                        </div>
-                        <div class="six small-12 medium-12 large-6 columns">
-                            <input type="text" name="sirname" placeholder="Фамилия" required/>
-                        </div>
+                    <div class="nine small-12 medium-9 small-9 columns">
+                        <p>{{name}}</p>
+                        <p>{{sirname}}</p>
                     </div>
-                    <div class="row">
-                        <div class="six small-12 medium-12 large-6 columns">
-                            <input type="text" name="login" placeholder="Логин" required/>
-                        </div>
-                        <div class="six small-12 medium-12 large-6 columns">
-                            <input type="email" name="email" placeholder="E-mail" required />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="six small-12 medium-12 large-6 columns">
-                            <input type="password" name="password" placeholder="Пароль" required/>
-                        </div>
-                        <div class="six small-12 medium-12 large-6 columns">
-                            <input type="password" name="password" placeholder="Повторите пароль" required/>
-                        </div>
-                    </div>
-                    <div class="row last-content-row">
-                        <div class="twelve small-12 medium-12 large-12 columns">
-                            <input type="submit" class="button medium" value="Зарегистрироваться" />
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </main>
         <div class="footer">
@@ -155,43 +125,6 @@
                     </div>
                 </div>
             </footer>
-        </div>
-        <div id="log-in-modal" class="modal">
-            <div class="row modal-wrapper">
-                <div class="row">
-                    <div class="twelve small-12 medium-12 large-12 columns">
-                        <a onclick="makeLoginInvisible( )" href="#" class="close tool">
-                            <img src="resources/icons/close33.png" />
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="twelve small-12 medium-12 large-12 columns">
-                        <form action="#">
-                            <div class="row">
-                                <div class="twelve small-12 medium-12 large-12 columns">
-                                    <input name="login" id="login" type="text" placeholder="Your email or login" required />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="twelve small-12 medium-12 large-12 columns">
-                                    <input name="password" id="password" type="password" placeholder="Password" required/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="twelve small-12 medium-12 large-12 columns">
-                                    <input onclick="makeLoginInvisible( )" type="submit" value="Log in" id="log-in-modal-submit" class="button small"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="twelve small-12 medium-12 large-12 columns">
-                                    <a onclick="makeLoginInvisible( )" href="registration" id="log-in-modal-register" class="button small">Register</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </body>
 </html>

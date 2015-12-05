@@ -55,6 +55,10 @@ app.get( '/works', function( req, res ) {
     res.render( 'works' );
 });
 
+app.get( '/userCab', function( req, res ) {
+    res.render( 'privateCab', { 'imagePath': '/recources/background.jpg', 'name': 'Olga', 'sirname': 'Vyrostko' });
+});
+
 var port = process.env.port || 8080;
 var server = app.listen( port, function( req, res ) {
   var host = server.address().address,
