@@ -35,6 +35,10 @@ app.get( '/gallery', function( req, res ) {
     res.render( 'gallery' );
 });
 
+app.get( '/guestbook', function( req, res ) {
+    res.render( 'guestbook' );
+});
+
 var port = process.env.port || 8080;
 var server = app.listen( port, function( req, res ) {
   var host = server.address().address,
