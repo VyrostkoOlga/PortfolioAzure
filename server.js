@@ -19,7 +19,7 @@ configure = function( app ) {
     app.use(express.static(__dirname + '/public'));
 };
 
-var app = express( );
+var app = express.createServer( );
 configure( app );
 
 //Запуск и обработчики возможных запросов
@@ -29,19 +29,24 @@ app.get( '/', function( req, res ) {
 
 
 var port = process.env.port || 8080;
-http.createServer(function (req, res) {
+/*
+express.createServer(function (req, res) {
 }).listen(port, function( ) {
     var host = server.address().address,
         port = server.address().port;
     console.log('Server running at http://%s:%s', host, port);
 });
 
-/*
 var server = app.listen(port, function () {
   var host = server.address().address,
       port = server.address().port;
   console.log('Server running at http://%s:%s', host, port);
 });
 */
+app.listen( port, function( req, res ) {
+  var host = server.address().address,
+      port = server.address().port;
+  console.log('Server running at http://%s:%s', host, port);
+});
 
 
