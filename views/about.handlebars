@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Olga Vyrostko</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- bootstrap -->
+        <link rel="stylesheet" type="text/css" href="foundation-5/css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="foundation-5/css/foundation.min.css" />
+        <link rel="stylesheet" type="text/css" href="foundation-5/css/foundation.css" />
+        <!--[if lt IE 9]>
+	       <link rel="stylesheet" href="foundation-5/css/normalize.css">
+	       <link rel="stylesheet" href="foundation/css/foundation.css">
+           <link rel="stylesheet" href="foundation/css/foundation.min.css">
+	       <link rel="stylesheet" href="foundation/css/app.css">
+        <![endif]-->
+        
+        <!--[if IE]><link rel="shortcut icon" href="favicon.jpg" /><![endif]-->
+        
+        <link rel="icon" href="favicon.jpg" />
+        <link rel="apple-touch-icon-precomposed" href="favicon.jpg" />
+        
+        <!-- custom -->
+        <link rel="stylesheet" type="text/css" href="css/buttons.css" />
+        <link rel="stylesheet" type="text/css" href="css/min.css" />
+        <link rel="stylesheet" type="text/css" href="css/about.css" />
+        
+        <!--[if lt IE 8]>
+	       <link rel="stylesheet" href="css/newsIE8.css">
+        <![endif]-->
+        
+        <!-- fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700,700italic&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        
+        <!-- Scripts -->
+	    <script src="js/about.js"></script>
+        <script src="js/min.js"></script>
+    </head>
+    <body onkeydown="keydownCallbackMin( event )">
+        <div class="header" onmouseover="showPageTitle( )"  onmouseout="showNameTitle( )">
+            <header>
+                <div class="row">
+                    <div class="twelve collapse small-12 medium-12 large-12 columns">
+                        <div id="hidden-menu">
+                            <h3 id="name-header">Olga Vyrostko</h3>
+                            <h3 id="page-header">About</h3>
+                            <div class="header-tools">
+                                <a onclick="makeLoginVisible( )" href="#log-in-modal" class="button small header-tool tooltip" data-tooltip="Log In">
+                                    <img src="resources/icons/user60.png" alt="User"/>
+                                </a>
+                                <a href="#" class="button small header-tool tooltip" id="show-menu-action" data-tooltip="Show menu" onclick="showMenu( )">
+                                    <img src="resources/icons/menu-bold.png" alt="Menu" />
+                                </a>
+                                <a href="#" class="button small header-tool tooltip" id="hide-menu-action" data-tooltip="Hide menu" onclick="hideMenu( )">
+                                    <img src="resources/icons/drop27.png" alt="Drop" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav">
+                    <nav>
+                        <div id="shown-menu">
+                            <ul>
+                                <li><a href="/index">Home</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="/gallery">Gallery</a></li>
+                                <li><a href="/works">Works</a></li>
+                                <li><a href="/resume">Resume</a></li>
+                                <li><a href="/news">News</a></li>
+                                <li><a href="/guestbook">Hello</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <main>
+            <div class="content-wrapper" onmouseover="colorImages( )" onmouseout="discolorImages( )">
+                <div class="row first-content-row">
+                    <div class="five small-12 medium-5 large-5 columns">
+                        <img src="resources/me.jpg" class="colored" alt=""/>
+                        <img src="resources/me1.jpg" class="grey" alt=""/>
+                    </div>
+                    <div class="seven small-12 medium-7 large-7 columns">
+                        <p>I’m a coffee drinking programmer, painter and writer from a beautiful Russian city <a href="http://www.ekburg.ru">Ekaterinburg</a> located on the boarder between Europe and Asia.</p>
+                        <p>At the age of twenty I am a student of <a target="_blank" href="http://urfu.ru/ru/">Ural Federal University</a>. My institute is <a target="_blank" href="http://imkn.urfu.ru/">Institute of Math and Computer Science</a>; my speciality is mathematical methods of computer security and now I study a lot of interesting subjects ranging from humanitarian ones like philosophy and history to different branches of mathematics ones and programming.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="five small-12 medium-5 large-5 columns">
+                        <img src="resources/worktable.jpg" class="colored" alt=""/>
+                        <img src="resources/worktable1.jpg" class="grey" alt=""/>
+                    </div>
+                    <div class="seven small-12 medium-7 large-7 columns">
+                        <p>At the same time I work in a company called <a target="_blank" href="http://www.acs-it.ru/SitePages/Домашняя.aspx">«ACS»</a> as a programmer.  The main focus of company’s activity is development of informational systems for federal customers like The Bank of Russia and The Federal Customs Service.</p>
+                        <p>My programming hobbies are web-design and developing applications for iOS platform. You can learn more about my work exploring the sections «<a target="_blank" href="../html/resume.html">Resume</a>» and «<a target="_blank" href="../html/works.html">Works</a>» of this website.</p>
+                    </div>
+                </div>
+                <div class="row last-content-row">
+                    <div class="five small-12 medium-5 large-5 columns">
+                        <img src="resources/decor.jpg" class="colored" alt="" />
+                        <img src="resources/decor.jpg" class="grey" alt="" />
+                    </div>
+                    <div class="seven small-12 medium-7 large-7 columns">
+                        <p>My free-time hobbies are painting, drawing and writing. You can examine my works as a painter and writer in the sections «<a target="_blank" href="/works">Works</a>» and «<a href="/news" target="_blank">News</a>» of this website.</p> 
+                        <p>You are welcome to contact me using "<a href="#footer">Hello</a>" link at the bottom of the page or section "<a href="/guestbook" target="_blank">Keep in touch</a>" of this website.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="footer" id="footer">
+            <footer>
+                <div class="row">
+                    <div class="twelve small-12 medium-12 columns">
+                        <ul class="text-list">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="/guestbook">Hello</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="twelve small-12 medium-12 large-12 columns">
+                        <ul class="tools-list">
+                            <li>
+                                <a href="http://vk.com/id21816928" class="button tiny footer-tool">
+                                    <img src="resources/icons/vk3.png" alt="VK" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:ovi@olgavyrostko.esy.es?subject=Отзыв%20гостевой%20книги" class="button tiny footer-tool">
+                                    <img src="resources/icons/mail.png" alt="EMAIL" />
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="https://plus.google.com/u/0/108531291967829787588/posts" class="button tiny footer-tool">
+                                    <img src="resources/icons/google1.png" alt="g+"/>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="twelve small-12 medium-12 large-12 columns">
+                        <h6>&copy; - 2015 - Olga Vyrostko </h6>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div id="log-in-modal" class="modal">
+            <div class="row modal-wrapper">
+                <div class="row">
+                    <div class="twelve small-12 medium-12 large-12 columns">
+                        <a onclick="makeLoginInvisible( )" href="#" class="close tool">
+                            <img src="resources/icons/close33.png" />
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="twelve small-12 medium-12 large-12 columns">
+                        <form action="#">
+                            <div class="row">
+                                <div class="twelve small-12 medium-12 large-12 columns">
+                                    <input name="login" id="login" type="text" placeholder="Your email or login" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="twelve small-12 medium-12 large-12 columns">
+                                    <input name="password" id="password" type="password" placeholder="Password" required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="twelve small-12 medium-12 large-12 columns">
+                                    <input onclick="makeLoginInvisible( )" type="submit" value="Log in" id="log-in-modal-submit" class="button small"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="twelve small-12 medium-12 large-12 columns">
+                                    <a onclick="makeLoginInvisible( )" href="/registration" id="log-in-modal-register" class="button small">Register</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
