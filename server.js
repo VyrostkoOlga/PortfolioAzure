@@ -30,10 +30,11 @@ app.get( '/', function( req, res ) {
 
 var port = process.env.port || 8080;
 http.createServer(function (req, res) {
+}).listen(port, function( ) {
     var host = server.address().address,
         port = server.address().port;
     console.log('Server running at http://%s:%s', host, port);
-}).listen(port);
+});
 
 /*
 var server = app.listen(port, function () {
