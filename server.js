@@ -31,6 +31,9 @@ app.get( '/about', function( req, res ) {
     res.render( 'about' );
 });
 
+app.get( '/gallery', function( req, res ) {
+    res.render( 'gallery' );
+});
 
 var port = process.env.port || 8080;
 var server = app.listen( port, function( req, res ) {
