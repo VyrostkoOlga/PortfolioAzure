@@ -56,7 +56,7 @@ app.get( '/works', function( req, res ) {
 });
 
 app.get( '/userCab', function( req, res ) {
-    res.render( 'privateCab', { 'imagePath': 'resources/background.jpg', 'name': 'Olga', 'sirname': 'Vyrostko' });
+    res.render( 'privateCab', { 'imagePath': "resources/background.jpg", 'name': 'Olga', 'sirname': 'Vyrostko' });
 });
 
 var port = process.env.port || 8080;
