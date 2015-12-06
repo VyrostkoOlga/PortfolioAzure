@@ -254,7 +254,7 @@ configure = function( app ) {
       styleSrc: ["'self'", 'https://fonts.googleapis.com'],
       fontSrc: ["'self'", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
       imgSrc: ["'self'", 'data:'],
-      sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin'],
+      sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin', 'allow-modals'],
       objectSrc: []
     }));
     app.use(helmet.xssFilter());
@@ -322,6 +322,27 @@ app.get( '/gallery', function( req, res ) {
         res.render( 'gallery', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
     else
         res.render( 'gallery', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
+});
+
+app.post( '/reviews', function( req, res ) {
+    var userId = req.cookies.userId;
+    var text = req.body.text;
+    
+    connection.query( 'INSERT INTO reviews ( reviewId, user, reviewText ) VALUES (?, ?, ?)', [0, userId, text], function( err, result ) {
+        if ( err ) {
+            console.log( err );
+        }
+    });
+});
+
+app.get( '/reviews', function( req, res ) {
+    connection.query( 'SELECT reviewId, user, reviewText, name, sirname FROM reviews INNER JOIN users ON userId = user', function( err, result ) {
+        console.log( result );
+        
+        if ( err ) result = [];
+        res.send( JSON.stringify( result ) );
+        res.end( );
+    }); 
 });
 
 app.get( '/guestbook', function( req, res ) {
@@ -403,26 +424,6 @@ app.get( '/userCab', csrfProtection, function( req, res ) {
     });
 });
 
-var createImage = function( userCount ) {
-  //response.writeHead(200, {'Content-Type': 'image/png'});
-  // creating an image
-  imagename = path.join(tempdir,""+userCount+".png");
-  var data;
-  gm(200, 100, "#ddff99f3")
-     .drawText(10, 50, userCount)
-     .write(imagename,function(err){
-        if (err) {
-            console.log(err);
-        }
-        else 
-            {
-                data = fs.readFileSync(imagename); 
-                console.log( "data:image/png; base64, " + data.toString( 'base64' )  );
-                return( "data:image/png; base64, " + data.toString( 'base64' ) );
-            }
-     });
-};
-
 app.get( '/profile', function( req, res ) {
     connection.query( 'SELECT * FROM olgavyrostko.users WHERE userId=?', [req.cookies.userId], function( err, result, fields ) {
     if ( err || result.length != 1 ) {
@@ -458,7 +459,6 @@ app.get( '/profile', function( req, res ) {
             }
             else 
                 {
-                    console.log( 1 ); 
                     data = fs.readFileSync(imagename); 
                     imUV = "data:image/png; base64, " + data.toString( 'base64' );
                 }
@@ -480,7 +480,6 @@ app.get( '/profile', function( req, res ) {
                 }
                 else 
                     {
-                        console.log( 2 );
                         data = fs.readFileSync(imagename); 
                         imUVN = "data:image/png; base64, " + data.toString( 'base64' );
                     }
@@ -500,7 +499,6 @@ app.get( '/profile', function( req, res ) {
                     }
                     else 
                         {
-                            console.log( 3 );
                             data = fs.readFileSync(imagename); 
                             imUVD = "data:image/png; base64, " + data.toString( 'base64' );
                             

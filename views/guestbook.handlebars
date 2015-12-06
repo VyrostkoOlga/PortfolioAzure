@@ -38,7 +38,7 @@
         <script src="js/guestbook.js"></script>
         <script src="js/min.js"></script>
     </head>
-    <body onkeydown="keydownCallbackMin( event )">
+    <body onkeydown="keydownCallbackMin( event )" onload="updateReviews( )">
         <div class="header" onmouseover="showPageTitle( )"  onmouseout="showNameTitle( )">
             <header>
                 <div class="row">
@@ -90,6 +90,7 @@
                         <div class="row" id="add-page-form">
                             <div class="twelve small-12 medium-12 large-12 columns">
                                 <form>
+                                    <input type="hidden" name="_csrf" value={{token}} />
                                     <p><textarea rows="5" name="text" cols="45" id="text-add-page"></textarea></p>
                                     <a class="button small tool tooltip" data-tooltip="Cancel" onclick="cancelAddPage( )">
                                         <img src="resources/icons/close40.png" alt="Cancel"/>
@@ -106,13 +107,9 @@
                     <div class="twelve small-12 medium-12 large-12 columns guestbook-page">
                         <div class="row">
                             <div class="twelve small-12 medium-12 large-12 columns">
-                                <form>
-                                    <p><textarea name="text" disabled rows="5" cols="45">Test</textarea></p>
-                                </form>
+                                <p class="text">Test</p>
+                                <h6 class="userId"></h6>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="twelve small-12 medium-12 large-12 columns"><p id="user-name"></p></div>
                         </div>
                     </div>
                 </div>
