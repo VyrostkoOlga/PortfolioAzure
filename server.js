@@ -438,7 +438,7 @@ app.get( '/profile', function( req, res ) {
     var surname = result[0].sirname;
     
     res.cookie('userId', userId, { maxAge: 900000, httpOnly: true });
-    res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
+    //res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
         
     var userVisits, userVisitsForDay, usersVisits;
     var today = new Date(Date.now( ));
