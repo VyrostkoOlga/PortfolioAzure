@@ -8,6 +8,7 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var csrf = require('csurf');
 var helmet = require('helmet');
+var logger = require( 'logger' );
 
 var gm = require('gm').subClass({ imageMagick: true });
 var temp = require('temp').track();
@@ -16,31 +17,7 @@ var path = require('path');
 
 var tempdir = temp.mkdirSync('tempimagesdir');
 
-/*
-var createImage = function( count ) {
-    count = "33";
-    var counterFile = path.join( "/resources/numbers", "" + count + ".png");
-    
-    if (fs.existsSync(counterFile))
-        return counterFile;
-    
-      gm(200, 100, "#ddff99f3").drawText(10, 50, count).write( counterFile, function( err ) {console.log( err ) } );
-*/
-
-/*
-    var result = gm( "counterFile" );
-    var strCount = count.toString( ).split( "" );
-    console.log( strCount );
-    
-    for ( var i=0; i<strCount.lenght; i++ ) {
-        var current = strCount[i];
-        result.append( "/resources/numbers/" + current + ".png" );
-    }
-    result.adjoin( );
-
-    return counterFile;
-};
-*/
+var logFile = fs.createWriteStream('myLogFile.log', {flags: 'a'});
 
 //Функция для подсчета хэшей
 var MD5 = function (string) {
@@ -268,6 +245,7 @@ configure = function( app ) {
     }));
     
     app.use( csrfProtection );
+    app.use(express.logger({stream: logFile}));
 
     app.use(helmet.csp({
       // Specify directives as normal
@@ -281,6 +259,8 @@ configure = function( app ) {
     }));
     app.use(helmet.xssFilter());
     app.use(helmet.hidePoweredBy({ setTo: 'this is secret' }));
+    
+    //app.use( logger( ) );
 };
 
 var csrfProtection = csrf({ cookie: true });
@@ -478,6 +458,7 @@ app.get( '/profile', function( req, res ) {
             }
             else 
                 {
+                    console.log( 1 ); 
                     data = fs.readFileSync(imagename); 
                     imUV = "data:image/png; base64, " + data.toString( 'base64' );
                 }
@@ -486,6 +467,8 @@ app.get( '/profile', function( req, res ) {
         connection.query( 'SELECT count(*) as n FROM olgavyrostko.sitevisits', function( err, result ) {
             if ( err ) usersVisits = 1;
             else usersVisits = result[0].n;
+            
+            //console.log( fs.resolve( '/resources' ) );
             
             imagename = path.join(tempdir,""+usersVisits+".png");
             result = gm(200, 50, "#EEEEEE");
@@ -497,6 +480,7 @@ app.get( '/profile', function( req, res ) {
                 }
                 else 
                     {
+                        console.log( 2 );
                         data = fs.readFileSync(imagename); 
                         imUVN = "data:image/png; base64, " + data.toString( 'base64' );
                     }
@@ -516,10 +500,9 @@ app.get( '/profile', function( req, res ) {
                     }
                     else 
                         {
+                            console.log( 3 );
                             data = fs.readFileSync(imagename); 
-                            console.log( 'imUVD' );
                             imUVD = "data:image/png; base64, " + data.toString( 'base64' );
-                            console.log( imUVD );
                             
                             res.render( 'privateCab', { 'imagePath': imagePath, 'name': name, 'sirname': surname, 'visitNumber': imUV, 'usersVisitNumber': imUVN, 'userVisitNumberForDay': imUVD, 'today': today.toLocaleString( ) } );
                         }
