@@ -254,7 +254,7 @@ configure = function( app ) {
       styleSrc: ["'self'", 'https://fonts.googleapis.com'],
       fontSrc: ["'self'", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
       imgSrc: ["'self'", 'data:'],
-      sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin', 'allow-modals'],
+      sandbox: ['allow-forms', 'allow-scripts', 'allow-same-origin'],
       objectSrc: []
     }));
     app.use(helmet.xssFilter());
