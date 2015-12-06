@@ -9,6 +9,39 @@ var cookieParser = require('cookie-parser');
 var csrf = require('csurf');
 var helmet = require('helmet');
 
+var gm = require('gm').subClass({ imageMagick: true });
+var temp = require('temp').track();
+var fs   = require('fs');
+var path = require('path');
+
+var tempdir = temp.mkdirSync('tempimagesdir');
+
+/*
+var createImage = function( count ) {
+    count = "33";
+    var counterFile = path.join( "/resources/numbers", "" + count + ".png");
+    
+    if (fs.existsSync(counterFile))
+        return counterFile;
+    
+      gm(200, 100, "#ddff99f3").drawText(10, 50, count).write( counterFile, function( err ) {console.log( err ) } );
+*/
+
+/*
+    var result = gm( "counterFile" );
+    var strCount = count.toString( ).split( "" );
+    console.log( strCount );
+    
+    for ( var i=0; i<strCount.lenght; i++ ) {
+        var current = strCount[i];
+        result.append( "/resources/numbers/" + current + ".png" );
+    }
+    result.adjoin( );
+
+    return counterFile;
+};
+*/
+
 //Функция для подсчета хэшей
 var MD5 = function (string) {
 
@@ -271,24 +304,60 @@ connection.connect(function(err) {
 });
 
 //Запуск и обработчики возможных запросов
+app.use(function (req, res, next) {
+    var userId = req.cookies.userId;
+    var userAddress = req.cookies.userAddress;
+    
+    console.log( userId, userAddress );
+    
+    if ( userId == undefined && userAddress == undefined ) {
+        userAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        connection.query( 'INSERT INTO sitevisits ( `visitId`, `user`) VALUES (?, ?)', [0, 2], function( err ){} );
+        res.cookie('userAddress', userAddress, { maxAge: 900000, httpOnly: true });
+    }
+    next();
+});
+
 app.get( '/', csrfProtection, function( req, res ) {
-    res.render( 'index', {'token': req.csrfToken() } );
+    console.log( req.cookies );
+    
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'index', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'index', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.get( '/about', function( req, res ) {
-    res.render( 'about', {'token': req.csrfToken() } );
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'about', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'about', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.get( '/gallery', function( req, res ) {
-    res.render( 'gallery', {'token': req.csrfToken() } );
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'gallery', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'gallery', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.get( '/guestbook', function( req, res ) {
-    res.render( 'guestbook', {'token': req.csrfToken() } );
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'guestbook', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'guestbook', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.get( '/news', function( req, res ) {
-    res.render( 'news', {'token': req.csrfToken() } );
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'news', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'news', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.get( '/registration', function( req, res ) {
@@ -313,11 +382,19 @@ app.post( '/registration', csrfProtection, function( req, res ) {
 });
 
 app.get( '/resume', function( req, res ) {
-    res.render( 'resume', {'token': req.csrfToken() } );
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'resume', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'resume', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.get( '/works', function( req, res ) {
-    res.render( 'works', {'token': req.csrfToken() } );
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'works', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'works', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
 });
 
 app.post( '/userCab', csrfProtection, function( req, res ) {
@@ -335,15 +412,128 @@ app.get( '/userCab', csrfProtection, function( req, res ) {
     connection.query( 'SELECT * FROM olgavyrostko.users WHERE login=? AND hashUserPassword=?', [name, hashPassword], function( err, result, fields ) {
         if ( err || result.length != 1 ) {
             res.redirect( '/#log-in-modal?error=true' );
+            return;
         }
-        else {
-            console.log( result );
-            res.cookie('user', result[0].userId, { maxAge: 900000, httpOnly: true, secure: true });
-            console.log( result[0].imagePath );
-            res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
-            res.render( 'privateCab', { 'imagePath': result[0].imagePath, 'name': result[0].name, 'sirname': result[0].sirname } );
-        }
+        
+        var userId = result[0].userId;
+        res.cookie('userId', userId, { maxAge: 900000, httpOnly: true });
+        connection.query( 'INSERT INTO sitevisits ( `visitId`, `user`) VALUES (?, ?)', [0, userId], function( err ){} );
+        
+        res.redirect( '/profile' );
     });
+});
+
+var createImage = function( userCount ) {
+  //response.writeHead(200, {'Content-Type': 'image/png'});
+  // creating an image
+  imagename = path.join(tempdir,""+userCount+".png");
+  var data;
+  gm(200, 100, "#ddff99f3")
+     .drawText(10, 50, userCount)
+     .write(imagename,function(err){
+        if (err) {
+            console.log(err);
+        }
+        else 
+            {
+                data = fs.readFileSync(imagename); 
+                console.log( "data:image/png; base64, " + data.toString( 'base64' )  );
+                return( "data:image/png; base64, " + data.toString( 'base64' ) );
+            }
+     });
+};
+
+app.get( '/profile', function( req, res ) {
+    connection.query( 'SELECT * FROM olgavyrostko.users WHERE userId=?', [req.cookies.userId], function( err, result, fields ) {
+    if ( err || result.length != 1 ) {
+        res.clearCookie( 'userId' );
+        res.redirect( '/#log-in-modal?error=true' );
+        return;
+    }
+        
+    var userId = result[0].userId;
+    var imagePath = result[0].imagePath;
+    var name = result[0].name;
+    var surname = result[0].sirname;
+    
+    res.cookie('userId', userId, { maxAge: 900000, httpOnly: true });
+    res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
+        
+    var userVisits, userVisitsForDay, usersVisits;
+    var today = new Date(Date.now( ));
+
+    connection.query( 'SELECT count(*) as n FROM olgavyrostko.sitevisits WHERE user=?', [userId], function( err, result ) {
+        if ( err ) userVisits = 1;
+        else userVisits = result[0].n;
+        
+        var imagename = path.join(tempdir,""+userVisits+".png");
+        var imUV, imUVNm, imUVD;
+        var data;
+        var result = gm(200, 50, "#EEEEEE");
+        result.font( 'ps:helvetica' );
+        result.fontSize( '20' );
+        result.drawText( 10, 30, userVisits ).write(imagename,function(err){
+            if (err) {
+                console.log(err);
+            }
+            else 
+                {
+                    data = fs.readFileSync(imagename); 
+                    imUV = "data:image/png; base64, " + data.toString( 'base64' );
+                }
+         });
+        
+        connection.query( 'SELECT count(*) as n FROM olgavyrostko.sitevisits', function( err, result ) {
+            if ( err ) usersVisits = 1;
+            else usersVisits = result[0].n;
+            
+            imagename = path.join(tempdir,""+usersVisits+".png");
+            result = gm(200, 50, "#EEEEEE");
+            result.font( 'ps:helvetica' );
+            result.fontSize( '20' );
+            result.drawText( 10, 30, usersVisits ).write(imagename,function(err){
+                if (err) {
+                    console.log(err);
+                }
+                else 
+                    {
+                        data = fs.readFileSync(imagename); 
+                        imUVN = "data:image/png; base64, " + data.toString( 'base64' );
+                    }
+             });
+
+            connection.query( 'SELECT count(*) as n FROM olgavyrostko.sitevisits WHERE user=? AND recordDate <= ?', [userId, today ], function( err, result ) {
+                if ( err ) userVisitsForDay = 1;
+                else userVisitsForDay = result[0].n;
+                
+                imagename = path.join(tempdir,""+userVisitsForDay+".png");
+                result = gm(200, 50, "#EEEEEE");
+                result.font( 'ps:helvetica' );
+                result.fontSize( '20' );
+                result.drawText( 10, 30, userVisitsForDay ).write(imagename,function(err){
+                    if (err) {
+                        console.log(err);
+                    }
+                    else 
+                        {
+                            data = fs.readFileSync(imagename); 
+                            console.log( 'imUVD' );
+                            imUVD = "data:image/png; base64, " + data.toString( 'base64' );
+                            console.log( imUVD );
+                            
+                            res.render( 'privateCab', { 'imagePath': imagePath, 'name': name, 'sirname': surname, 'visitNumber': imUV, 'usersVisitNumber': imUVN, 'userVisitNumberForDay': imUVD, 'today': today.toLocaleString( ) } );
+                        }
+                 });
+                });
+            });
+        });
+    });
+
+});
+
+app.get( '/logOut', function( req, res ) {
+    res.clearCookie( 'userId' );
+    res.redirect( '/' );
 });
 
 var port = process.env.port || 8080;

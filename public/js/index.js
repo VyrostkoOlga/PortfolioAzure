@@ -4,7 +4,6 @@ window.onload = function( ) {
     var error = document.location.search;
     var hash = document.location.hash;
     
-    console.log( hash );
     if ( hash == '#log-in-modal?error=true' ) {
         console.log( 'test' );
         var login = document.getElementsByName( 'login' );
