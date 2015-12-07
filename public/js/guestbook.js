@@ -1,9 +1,10 @@
-var expts = new RegExp( '(.*?)<(B|I)>(.*?)</(B|I)>(.*?)', 'i' );
-var img = new RegExp( '(.*?)<IMG([^/]*?)src=([^/]*?)/>', 'i' );
-var animg = new RegExp( '(.*?)@IMG([^/]*?)src=([^/]*?)/@', 'i' );
-var anexpts = new RegExp( '(.*?)@(B|I)@(.*?)#(B|I)@(.*?)', 'i' );
-var regTag = new RegExp( '(.*?)<([^>]*)>(.*?)</[^>]*>(.*?)', 'i' );
-var regTag2 = new RegExp( '(.*?)<([^>]*)>([^/]*?)/>(.*?)');
+var bTag = new RegExp( '<b[^>]*?>([^<]*?)</b>', 'i' );
+var iTag = new RegExp( '<i[^>]*?>([^<]*?)</i>', 'i' );
+var bTag1 = new RegExp( '&lt;b&gt;(.*?)&lt;/b&gt;', 'i' );
+var iTag1 = new RegExp( '&lt;i&gt;(.*?)&lt;/i&gt;', 'i' );
+
+var imgTag = new RegExp( '<img.*? src=(.*?) .*?/>');
+var imgTag1 = new RegExp( '&lt;img.*? src=(.*?)/&gt;' );
 
 addPage = function( ) {
     var form = document.getElementById( "add-page-form" );
@@ -25,12 +26,10 @@ sendReview = function( ) {
     var text = document.getElementById( 'text-add-page' ).value;
     var csrf = document.getElementsByName( '_csrf' )[0].value;
     
-    text = text.replace( img, '$1@IMG$2src=$3/@' );
-    text = text.replace( expts, '$1@$2@$3#$4@$5' );
-    text = text.replace( regTag, '$1 $3 $4' );
-    text = text.replace( regTag2, '$1 $4');
-    text = text.replace( anexpts, '$1<$2>$3</$4>$5' );
-    text = text.replace( animg, '$1<IMG$2src=$3/>' );
+    text = text.replace( bTag, '$1'.bold() );
+    text = text.replace( iTag, '$1'.italics( ) );
+    text = text.replace( imgTag, '<img src=$1/>' );
+    console.log( text );
     
     var xhttp = new XMLHttpRequest( );
     xhttp.open( 'POST', '/reviews', true );
@@ -54,6 +53,9 @@ fillAndAdd = function( data ) {
     
     var text = findNodeByClassName( newReview, "text", true );
     text.textContent = data.reviewText;
+    text.innerHTML = text.innerHTML.replace( bTag1, '<b>$1</b>');
+    text.innerHTML = text.innerHTML.replace( iTag1, '<i>$1</i>');
+    text.innerHTML = text.innerHTML.replace( imgTag1, '<img height="50" width="50" src=$1/>' );
     
     var user = findNodeByClassName( newReview, "userId", true );
     user.textContent = data.name + ' ' + data.sirname;
@@ -73,11 +75,8 @@ updateReviews = function( ) {
             var data = JSON.parse( xhttp.responseText );
             
             var reviews = document.getElementsByName( 'reviewPage' );
-            console.log( reviews );
             for ( var i=0; i<data.length; i++ ) {
-                console.log( reviews );
                 var current = reviews[i];
-                console.log( current );
                 if ( undefined != current )
                     current.parentNode.removeChild( current );
             }
