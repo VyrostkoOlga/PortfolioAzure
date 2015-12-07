@@ -522,3 +522,7 @@
 ::ffff:127.0.0.1 - - [07/Dec/2015:19:03:13 +0000] "GET /guestbook HTTP/1.1" 200 10662 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"
 ::ffff:127.0.0.1 - - [07/Dec/2015:19:03:25 +0000] "GET /guestbook HTTP/1.1" 200 10662 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"
 ::ffff:127.0.0.1 - - [07/Dec/2015:19:03:25 +0000] "GET /reviews HTTP/1.1" 304 - "http://127.0.0.1:8080/guestbook" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"
+::ffff:127.0.0.1 - - [07/Dec/2015:19:07:47 +0000] "GET /guestbook HTTP/1.1" 200 10662 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"
+::ffff:127.0.0.1 - - [07/Dec/2015:19:07:48 +0000] "GET /reviews HTTP/1.1" 304 - "http://127.0.0.1:8080/guestbook" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"
+::ffff:127.0.0.1 - - [07/Dec/2015:19:08:15 +0000] "GET /guestbook HTTP/1.1" 200 10662 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"
+::ffff:127.0.0.1 - - [07/Dec/2015:19:08:15 +0000] "GET /reviews HTTP/1.1" 304 - "http://127.0.0.1:8080/guestbook" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"

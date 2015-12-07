@@ -59,7 +59,7 @@ fillAndAdd = function( data ) {
     
     var user = findNodeByClassName( newReview, "userId", true );
     user.textContent = data.name + ' ' + data.sirname;
-    user.setAttribute('userId', data.userId);
+    user.setAttribute('userId', data.user);
     
     document.getElementById( "content-wrapper" ).insertBefore( newReview, proto );
     
