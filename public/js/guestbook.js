@@ -55,7 +55,7 @@ fillAndAdd = function( data ) {
     text.innerHTML = text.innerHTML.replace( bTag1, '<b>$1</b>');
     text.innerHTML = text.innerHTML.replace( iTag1, '<i>$1</i>');
     
-    text.innerHTML = text.innerHTML.replace( imgTag1, '<img height="50" width="50" src=$1/>' );
+    text.innerHTML = text.innerHTML.replace( imgTag1, '<img height="100" width="100" src=$1/>' );
     
     var user = findNodeByClassName( newReview, "userId", true );
     user.textContent = data.name + ' ' + data.sirname;
