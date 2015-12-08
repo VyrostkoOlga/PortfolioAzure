@@ -337,7 +337,6 @@ app.post( '/reviews', function( req, res ) {
 
 app.get( '/reviews', function( req, res ) {
     connection.query( 'SELECT reviewId, user, reviewText, name, sirname FROM reviews INNER JOIN users ON userId = user', function( err, result ) {
-        console.log( result );
         
         if ( err ) result = [];
         res.send( JSON.stringify( result ) );

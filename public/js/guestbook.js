@@ -3,8 +3,8 @@ var iTag = new RegExp( '<i[^>]*?>([^<]*?)</i>', 'i' );
 var bTag1 = new RegExp( '&lt;b&gt;(.*?)&lt;/b&gt;', 'i' );
 var iTag1 = new RegExp( '&lt;i&gt;(.*?)&lt;/i&gt;', 'i' );
 
-var imgTag = new RegExp( '<img.*? src=(.*?) .*?/>');
-var imgTag1 = new RegExp( '&lt;img.*? src=(.*?)/&gt;' );
+var imgTag = new RegExp( '<img.*? src=([\'"]data:image/[a-z]*?;base64,[^\'"]*?[\'"]).*?/>', 'i' );
+var imgTag1 = new RegExp( '&lt;img src=([\'"]data:image/[a-z]*?;base64,[^\'"]*?[\'"])/&gt;', 'i' );
 
 addPage = function( ) {
     var form = document.getElementById( "add-page-form" );
@@ -29,13 +29,12 @@ sendReview = function( ) {
     text = text.replace( bTag, '$1'.bold() );
     text = text.replace( iTag, '$1'.italics( ) );
     text = text.replace( imgTag, '<img src=$1/>' );
-    console.log( text );
     
     var xhttp = new XMLHttpRequest( );
     xhttp.open( 'POST', '/reviews', true );
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.setRequestHeader('X-CSRF-Token', csrf);
-    xhttp.send( 'text=' + text );
+    xhttp.send( 'text=' + encodeURIComponent(text) );
     
     updateReviews( );
 };
@@ -52,9 +51,10 @@ fillAndAdd = function( data ) {
     newReview.style.display = "block";
     
     var text = findNodeByClassName( newReview, "text", true );
-    text.textContent = data.reviewText;
+    text.textContent = decodeURIComponent(data.reviewText);
     text.innerHTML = text.innerHTML.replace( bTag1, '<b>$1</b>');
     text.innerHTML = text.innerHTML.replace( iTag1, '<i>$1</i>');
+    
     text.innerHTML = text.innerHTML.replace( imgTag1, '<img height="50" width="50" src=$1/>' );
     
     var user = findNodeByClassName( newReview, "userId", true );

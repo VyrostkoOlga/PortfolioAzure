@@ -85,3 +85,9 @@
     color: #525252;
     font-family: "Noto Serif", sans-serif;
 }
+
+.text {
+    overflow-y: scroll;
+    height: 150px;
+    width: 750px;
+}
