@@ -449,7 +449,7 @@ app.get( '/userCab', csrfProtection, function( req, res ) {
         }
         
         var userId = result[0].userId;
-        res.cookie('userId', userId, { maxAge: 900000, httpOnly: true });
+        res.cookie('userId', userId, { maxAge: 900000, httpOnly: false });
         connection.query( 'INSERT INTO sitevisits ( `visitId`, `user`) VALUES (?, ?)', [0, userId], function( err ){} );
         
         res.redirect( '/profile' );
@@ -470,7 +470,7 @@ app.get( '/profile', function( req, res ) {
     var surname = result[0].sirname;
     
     res.cookie('userId', userId, { maxAge: 900000, httpOnly: true });
-    //res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
+    res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
         
     var userVisits, userVisitsForDay, usersVisits;
     var today = new Date(Date.now( ));
