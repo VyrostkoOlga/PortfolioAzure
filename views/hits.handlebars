@@ -81,32 +81,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="nine small-9 medium-9 large-9 columns content-center">
-                        <h6>Количество посещений</h6>
-                    </div>
-                    <div class="three small-3 medium-3 large-3 columns content-center">
-                        <img src="{{usersVisitNumber}}" />
-                    </div>
+                    <div class="nine small-9 medium-9 large-9 columns"><h6>Всего просмотров</h6></div>
+                    <div class="three small-3 medium-3 large-3 columns"><img src="{{totalHits}}"/></div>
                 </div>
                 <div class="row">
-                    <div class="nine small-9 medium-9 large-9 columns content-center">
-                        <h6>Количество посещений {{name}} на {{today}}</h6>
-                    </div>
-                    <div class="three small-3 medium-3 large-3 columns content-center">
-                        <img src="{{visitNumber}}" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="nine small-9 medium-9 large-9 columns content-center">
-                        <h6>Количество посещений {{name}} за день на {{today}}</h6>
-                    </div>
-                    <div class="three small-3 medium-3 large-3 columns content-center">
-                        <img src="{{userVisitNumberForDay}}" />
-                    </div>
+                    <div class="nine small-9 medium-9 large-9 columns"><h6>Всего просмотров на {{today}}</h6></div>
+                    <div class="three small-3 medium-3 large-3 columns"><img src="{{totalHitsToday}}"/></div>
                 </div>
                 <div class="row last-content-row">
                     <div class="twelve small-12 medium-12 large-12 columns">
-                        <a href="/hits" class="button medium">К просмотрам</a>
+                        <a class="button medium" href="/profile">К посещениям</a>
+                        <a class="button medium" href="/moreInfo">Детализация</a>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,6 @@
+//Объявляем глобмальные константы
+var minTime = 100;
+
 //Импортируем зависимости
 var express = require( 'express' );
 var bodyParser = require( 'body-parser' );
@@ -287,6 +290,7 @@ connection.connect(function(err) {
 app.use(function (req, res, next) {
     var userId = req.cookies.userId;
     var userAddress = req.cookies.userAddress;
+    var url = req.url;
     
     console.log( userId, userAddress );
     
@@ -294,6 +298,20 @@ app.use(function (req, res, next) {
         userAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         connection.query( 'INSERT INTO sitevisits ( `visitId`, `user`) VALUES (?, ?)', [0, 2], function( err ){} );
         res.cookie('userAddress', userAddress, { maxAge: 900000, httpOnly: true });
+    }
+    else {
+        if ( userId == undefined ) { userId = 2; }
+        connection.query( 'SELECT * FROM hits WHERE user=? AND page=?', [userId, url], function( err, res ) {
+            if ( err ) { console.log( err );}
+            else {
+                if ( res.length == 0 ) {
+                    connection.query( 'INSERT INTO hits ( `user`, `page` ) VALUES ( ?, ? )', [userId, url ], function( err ) { if ( err ) {console.log( err ); } } );
+                }
+                else if ( Date.now( ) - res[0].hitDate > minTime ) {
+                    connection.query( 'UPDATE hits SET hitDate=now( ), hitNumber=? WHERE user=? AND page=?', [res[0].hitNumber + 1, userId, url ], function( err )  { if ( err ) { console.log( err ); } } );
+                }
+            }
+        });
     }
     next();
 });
@@ -395,6 +413,21 @@ app.get( '/works', function( req, res ) {
         res.render( 'works', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
     else
         res.render( 'works', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
+});
+
+app.get( '/theme', csrfProtection, function( req, res ) {
+    var userId = req.cookies.userId;
+    var imagePath = req.cookies.startImage;
+    
+    console.log( req.body );
+    
+    connection.query( 'UPDATE users SET imagePath=? WHERE userId=?', [imagePath, userId], function( err ) {
+        if ( err ) {
+            console.log( err );
+        }
+        console.log( 'test' );
+        res.cookie('startImage', imagePath, { maxAge: 900000, httpOnly: true });
+    });
 });
 
 app.post( '/userCab', csrfProtection, function( req, res ) {
@@ -508,7 +541,70 @@ app.get( '/profile', function( req, res ) {
             });
         });
     });
+});
 
+app.get( '/hits', function( req, res ) {
+    connection.query( 'SELECT * FROM olgavyrostko.users WHERE userId=?', [req.cookies.userId], function( err, result, fields ) {
+    if ( err || result.length != 1 ) {
+        res.clearCookie( 'userId' );
+        res.redirect( '/#log-in-modal?error=true' );
+        return;
+    }
+        
+    var userId = result[0].userId;
+    var imagePath = result[0].imagePath;
+    var name = result[0].name;
+    var surname = result[0].sirname;
+    
+    res.cookie('userId', userId, { maxAge: 900000, httpOnly: true });
+    //res.cookie('startImage', result[0].imagePath, { maxAge: 900000 } );
+        
+    var hits, userDailyHits;
+    var today = new Date(Date.now( ));
+
+    connection.query( 'SELECT sum(hitNumber) as n FROM olgavyrostko.hits', function( err, result ) {
+        if ( err ) hits = 1;
+        else hits = result[0].n;
+        
+        var imagename = path.join(tempdir,""+hits+".png");
+        var imUV, imUVNm, imUVD;
+        var data;
+        var result = gm(200, 50, "#EEEEEE");
+        result.font( 'ps:helvetica' );
+        result.fontSize( '20' );
+        result.drawText( 10, 30, hits ).write(imagename,function(err){
+            if (err) {
+                console.log(err);
+            }
+            else 
+                {
+                    data = fs.readFileSync(imagename); 
+                    imUV = "data:image/png; base64, " + data.toString( 'base64' );
+                }
+         });
+        
+        connection.query( 'SELECT sum(hitNumber) as n FROM olgavyrostko.hits WHERE recordDate <= ?', [today], function( err, result ) {
+            if ( err ) userDailyHits = 1;
+            else userDailyHits = result[0].n;
+                
+            imagename = path.join(tempdir,""+userDailyHits+".png");
+            result = gm(200, 50, "#EEEEEE");
+            result.font( 'ps:helvetica' );
+            result.fontSize( '20' );
+            result.drawText( 10, 30, userDailyHits ).write(imagename,function(err){
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    data = fs.readFileSync(imagename); 
+                    imUVD = "data:image/png; base64, " + data.toString( 'base64' );
+
+                    res.render( 'hits', { 'imagePath': imagePath, 'name': name, 'sirname': surname, 'totalHits': imUV, 'totalHitsToday': imUVD, 'today': today.toLocaleString( ) } );
+                }
+                });
+            });
+        });
+    });
 });
 
 app.get( '/logOut', function( req, res ) {
