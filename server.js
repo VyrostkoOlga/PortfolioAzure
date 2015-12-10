@@ -297,19 +297,19 @@ app.use(function (req, res, next) {
     if ( userId == undefined && userAddress == undefined ) {
         userAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         connection.query( 'INSERT INTO sitevisits ( `visitId`, `user`) VALUES (?, ?)', [0, 2], function( err ){} );
+        connection.query( 'INSERT INTO hits ( `hitId`, `user`, `page`, `userAddress`), [0, 2, url, userAddress]', function( err ) {console.log( err ); } );
         res.cookie('userAddress', userAddress, { maxAge: 900000, httpOnly: true });
     }
     else {
-        if ( userId == undefined ) { userId = 2; }
-        connection.query( 'SELECT * FROM hits WHERE user=? AND page=?', [userId, url], function( err, res ) {
-            if ( err ) { console.log( err );}
-            else {
-                if ( res.length == 0 ) {
-                    connection.query( 'INSERT INTO hits ( `user`, `page` ) VALUES ( ?, ? )', [userId, url ], function( err ) { if ( err ) {console.log( err ); } } );
-                }
-                else if ( Date.now( ) - res[0].hitDate > minTime ) {
-                    connection.query( 'UPDATE hits SET hitDate=now( ), hitNumber=? WHERE user=? AND page=?', [res[0].hitNumber + 1, userId, url ], function( err )  { if ( err ) { console.log( err ); } } );
-                }
+        if ( userId == undefined ) { userId = 2;}
+        if ( userAddress == undefined ) { userAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress; }
+        
+        connection.query( 'SELECT max(hitDate) as lastSeen FROM hits WHERE (user=? OR userAddress=?) AND page=?', [userId, userAddress, url], function( err, result ) {
+            if ( err ) {console.log( err );}
+            
+            console.log( result );
+            if ( result.lastSeen == null || ( Date.now() - result[0].lastSeen > 100 )) {
+                connection.query( 'INSERT INTO hits ( `hitId`, `user`, `page`, `userAddress` ) VALUES (?, ?, ?, ? )', [0, userId, url, userAddress], function( err ) { if (err ) { console.log( err ); }});
             }
         });
     }
@@ -562,7 +562,7 @@ app.get( '/hits', function( req, res ) {
     var hits, userDailyHits;
     var today = new Date(Date.now( ));
 
-    connection.query( 'SELECT sum(hitNumber) as n FROM olgavyrostko.hits', function( err, result ) {
+    connection.query( 'SELECT count(*) as n FROM olgavyrostko.hits', function( err, result ) {
         if ( err ) hits = 1;
         else hits = result[0].n;
         
@@ -583,7 +583,7 @@ app.get( '/hits', function( req, res ) {
                 }
          });
         
-        connection.query( 'SELECT sum(hitNumber) as n FROM olgavyrostko.hits WHERE recordDate <= ?', [today], function( err, result ) {
+        connection.query( 'SELECT count(*) as n FROM olgavyrostko.hits WHERE hitDate <= ?', [today], function( err, result ) {
             if ( err ) userDailyHits = 1;
             else userDailyHits = result[0].n;
                 
@@ -598,10 +598,18 @@ app.get( '/hits', function( req, res ) {
                 else {
                     data = fs.readFileSync(imagename); 
                     imUVD = "data:image/png; base64, " + data.toString( 'base64' );
-
-                    res.render( 'hits', { 'imagePath': imagePath, 'name': name, 'sirname': surname, 'totalHits': imUV, 'totalHitsToday': imUVD, 'today': today.toLocaleString( ) } );
-                }
+                    }
                 });
+            connection.query( 'SELECT count(*) as `n`, page as `page`, max(hitDate) as `lastSeen` FROM hits WHERE user=? GROUP BY page', [userId], function( err, result ) {
+                if ( err ) { console.log( err );}
+                else {
+                    var pages = [];
+                    for ( var i=0; i<result.length; i++ ) {
+                        pages.push( {'page': result[i].page, 'hits': result[i].n, 'lastSeen': result[i].lastSeen } );
+                    }
+                    res.render( 'hits', { 'imagePath': imagePath, 'name': name, 'sirname': surname, 'totalHits': imUV, 'totalHitsToday': imUVD, 'today': today.toLocaleString( ), 'pages': pages } );
+                }
+            });
             });
         });
     });
