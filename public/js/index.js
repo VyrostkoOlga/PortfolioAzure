@@ -33,6 +33,6 @@ window.onload = function( ) {
     
     console.log( imagePath );
     if ( imagePath != undefined ) {
-        document.getElementById( 'hero' ).style.backgroundImage = "url(" + imagePath + " )";
+        document.getElementById( 'hero' ).style.backgroundImage = "url(" + decodeURIComponent(imagePath) + " )";
     }
 }

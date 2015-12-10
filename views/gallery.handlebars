@@ -38,6 +38,7 @@
         <!--script language="javascript" src="js/about.js"></script-->
         <script src="js/min.js"></script>
         <script src="js/gallery.min.js"></script>
+        <script src="js/gallery.js"></script>
         
     </head>
     <body onkeydown="keydownCallback( event )" onhashchange="popstateCallback( event )">
@@ -79,6 +80,9 @@
         </div>
         <main>
             <div class="content-wrapper" id="gallery-wrapper" total="30">
+                <form>
+                    <input type="hidden" name="_csrf" value={{token}}/>
+                </form>
                 <section class="grid">
                     <div class="row first-content-row">
                         <div class="twelve small-12 medium-12 large-12 columns">

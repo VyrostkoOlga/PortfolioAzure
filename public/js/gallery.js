@@ -151,8 +151,9 @@ window.onload = function( ) {
     
     setTheme = function( event ) {
         var now = new Date( );
-        var time = now.getTime( ) + 1000*36000;
+        var time = now.getTime( ) + 900000;
         now.setTime( time );
+        //var csrf = document.getElementsByName( '_csrf' )[0].value;
         
         var trg = event.target;
         if ( trg == undefined ) {
@@ -162,8 +163,16 @@ window.onload = function( ) {
         var modal = findParentByClass( trg, 'modal', true );
         if ( modal != null ) {
             var im = findNodeByClassName( modal, 'image-full-view', true );
-            if ( im != null )
+            console.log( im );
+            if ( im != null ) {
                 document.cookie = "startImage=" + im.src + "; path=/; expires=" + now.toGMTString( );
+                var xhttp = new XMLHttpRequest( );
+                xhttp.open( 'GET', '/theme', true );
+                //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send( );
+                //xhttp.setRequestHeader('X-CSRF-Token', csrf);
+                //xhttp.send( 'startImage=' + encodeURIComponent(im.src) );
+            }
         }
     }
 }
