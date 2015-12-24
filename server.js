@@ -430,6 +430,47 @@ app.get( '/theme', csrfProtection, function( req, res ) {
     });
 });
 
+app.get( '/like', csrfProtection, function( req, res ) {
+    var user = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var image = req.query.image;
+
+    console.log( req.query );
+    
+    connection.query( 'SELECT MAX(likeTime) as `likeTime` FROM likes WHERE user=? AND photo=?', [user, image], function( err, data ) {
+        if ( err ) {
+            console.log( err );
+        }
+        //Для тестов - потом изменить
+        if ( (null == data.likeTime) || (Date.now( ) - data[0].likeTime >= 0 ) ) {
+            connection.query( 'INSERT INTO likes (user, photo) VALUES ( ?, ? )', [user, image], function( err ) {
+                if ( err ) {
+                    console.log( err );
+                }
+                else {
+                    connection.query( 'SELECT count(photo) as `n` FROM likes', function( err, data ) {
+                        if ( err ) {
+                            console.log( err );
+                        }
+                        else {
+                            res.send( JSON.stringify( {'n': data[0].n } ) );
+                        }
+                    });
+                }
+            });
+        }
+    });
+    
+    /*
+    connection.query( 'UPDATE users SET imagePath=? WHERE userId=?', [imagePath, userId], function( err ) {
+        if ( err ) {
+            console.log( err );
+        }
+        console.log( 'test' );
+        res.cookie('startImage', imagePath, { maxAge: 900000, httpOnly: true });
+    });
+    */
+});
+
 app.post( '/userCab', csrfProtection, function( req, res ) {
     var name = req.body.login;
     var password = MD5(req.body.password);

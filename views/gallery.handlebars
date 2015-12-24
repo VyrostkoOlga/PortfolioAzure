@@ -422,10 +422,14 @@
                 <div class="row">
                     <div class="twelve small-12 medium-12 large-12 columns">
                         <a onclick="closeModal( event )" href="#" class="close tool">
-                            <img src="resources/icons/close33.png" />
+                            <img src="resources/icons/close33.png" alt="Close"/>
                         </a>
                         <a class="make-background tooltip tool" data-tooltip="Set theme" onclick="setTheme( event )">
-                            <img src="resources/icons/paintbrush12.png" />
+                            <img src="resources/icons/paintbrush12.png" alt="Theme"/>
+                        </a>
+                        <a class="like-photo tooltip tool" data-tooltip="Like">
+                            <img src="resources/icons/heart292.png" alt="Like" onclick="addLike( event )"/>
+                            <h4 id="likes-number"></h4>
                         </a>
                     </div>
                 </div>

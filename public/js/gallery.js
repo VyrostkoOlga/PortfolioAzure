@@ -175,4 +175,32 @@ window.onload = function( ) {
             }
         }
     }
+    
+    addLike = function( event ) {
+        var trg = event.target;
+        if ( trg == undefined ) {
+            trg = event.srcElement;
+        }
+        
+        var modal = findParentByClass( trg, 'modal', true );
+        if ( modal != null ) {
+            var im = findNodeByClassName( modal, 'image-full-view', true );
+            if ( im != null ) {
+                var xhttp = new XMLHttpRequest( );
+                xhttp.onreadystatechange = function( ) {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        var likes = JSON.parse(xhttp.responseText).n;
+                        console.log( likes );
+                        document.getElementById( 'likes-number' ).value = likes;
+                    }
+                }
+                
+                xhttp.open( 'GET', '/like?image=' + im.src, true );
+                //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send( );
+                //xhttp.setRequestHeader('X-CSRF-Token', csrf);
+                //xhttp.send( 'startImage=' + encodeURIComponent(im.src) );
+            }
+        }
+    }
 }
