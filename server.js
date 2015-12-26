@@ -637,7 +637,7 @@ app.post( '/vote', csrfProtection, function( req, res ) {
         }
         else {
             var diff = Date.now( ) - data[0].voteDatetime;
-            if ( !data.time || diff >= 3000 ) {
+            if ( !data.time || diff >= 30000 ) {
                 console.log( 'test' );
                 connection.query( 'INSERT INTO results( `voteId`, `userAddress`, `first`, `second`, `third`) VALUES (?, ?, ?, ?, ?)', [0, userAddress, req.body.date, req.body.place, req.body.present ], function( err, data ) {
                     if ( err ) {
