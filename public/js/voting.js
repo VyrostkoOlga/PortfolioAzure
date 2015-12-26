@@ -14,6 +14,7 @@
 };*/
 
 var needUpdate = [];
+var presents = ['Ball with snow', 'Book', 'Cookies', 'iPhone' ];
 
 vote = function( ) {
     var place = document.getElementById( 'place' ).value;
@@ -34,12 +35,18 @@ getResults = function( ) {
     var xhttp = new XMLHttpRequest( );
     xhttp.onreadystatechange = function( ) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            console.log( xhttp.responseText );
             var result = JSON.parse( xhttp.responseText );
+            
             var date = result.date.date;
             document.getElementById("date-result").innerHTML = date.substring( 0, date.indexOf( 'T' ) );
-            
             document.getElementById("date-counter").src = result.date.n;
+            
+            document.getElementById("place-result").innerHTML = result.place.place;
+            document.getElementById("place-counter").src = result.place.n;
+            
+            document.getElementById( 'present-result' ).src = "/resources/Presents/" + result.present.present + ".jpg";
+            document.getElementById( 'present-result-name' ).innerHTML = presents[Number(result.present.present) - 1];
+            
             needUpdate.pop( );
         }
     }

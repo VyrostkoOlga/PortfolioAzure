@@ -711,6 +711,22 @@ app.get( '/vote', function( req, res ) {
                 else {
                     var place = {};
                     place['place'] = data[0].place;
+                    n = data[0].n;
+                    
+                    imagename = path.join(tempdir,""+n+".png");
+                    resultIm = gm(200, 50, "#EEEEEE");
+                    resultIm.font( 'ps:helvetica' );
+                    resultIm.fontSize( '20' );
+                    resultIm.drawText( 10, 30, n ).write(imagename,function(err){
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            dataIm = fs.readFileSync(imagename); 
+                            place['n'] = "data:image/png; base64, " + dataIm.toString( 'base64' );
+                        }
+                    });
+                    result['place'] = place;
                     
                     
                     connection.query( 'SELECT n as n, third as present FROM `present-results-view` WHERE n = ( SELECT MAX(n) FROM `present-results-view`)', function( err, data ) {
@@ -718,7 +734,10 @@ app.get( '/vote', function( req, res ) {
                             console.log( err );
                         }
                         else {
-                            result['present'] = data;
+                            console.log( data[0].present );
+                            var present = {};
+                            present['present'] = data[0].present;
+                            result['present'] = present;
                             res.send( JSON.stringify( result ) );
                         }
                     });
