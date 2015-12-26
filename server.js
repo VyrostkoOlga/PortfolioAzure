@@ -636,8 +636,8 @@ app.post( '/vote', csrfProtection, function( req, res ) {
             console.log( err );
         }
         else {
-            var diff = Date.now( ) - data[0].voteDatetime;
-            if ( !data.time || diff >= 30000 ) {
+            var diff = Date.now( ) - data[0].time;
+            if ( !data[0].time || diff >= 90000000 ) {
                 console.log( 'test' );
                 connection.query( 'INSERT INTO results( `voteId`, `userAddress`, `first`, `second`, `third`) VALUES (?, ?, ?, ?, ?)', [0, userAddress, req.body.date, req.body.place, req.body.present ], function( err, data ) {
                     if ( err ) {
@@ -732,7 +732,6 @@ app.get( '/vote', function( req, res ) {
                             console.log( err );
                         }
                         else {
-                            console.log( data[0].present );
                             var present = {};
                             present['present'] = data[0].present;
                             result['present'] = present;
