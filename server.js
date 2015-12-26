@@ -620,6 +620,133 @@ app.get( '/logOut', function( req, res ) {
     res.redirect( '/' );
 });
 
+app.get( '/voting', function( req, res ) {
+    var userId = req.cookies.userId;
+    if ( userId != undefined )
+        res.render( 'voting', {'token': req.csrfToken(), 'loginOnclick': '', 'loginHref': '/profile' } );
+    else
+        res.render( 'voting', {'token': req.csrfToken(), 'loginOnclick': 'makeLoginVisible( )', 'loginHref': '#log-in-modal' } );
+});
+
+app.post( '/vote', csrfProtection, function( req, res ) {
+    var userAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    console.log( req.body );
+    connection.query( 'SELECT MAX( voteDatetime ) as time FROM results WHERE userAddress=?', [userAddress], function( err, data ) {
+        if ( err ) {
+            console.log( err );
+        }
+        else {
+            var diff = Date.now( ) - data[0].voteDatetime;
+            console.log( diff );
+            console.log( data );
+            if ( !data.time || diff >= 0 ) {
+                console.log( 'test' );
+                connection.query( 'INSERT INTO results( `voteId`, `userAddress`, `first`, `second`, `third`) VALUES (?, ?, ?, ?, ?)', [0, userAddress, req.body.date, req.body.place, req.body.present ], function( err, data ) {
+                    if ( err ) {
+                        console.log( err );
+                    }
+                    else {
+                        console.log( "success" );
+                    }
+                });
+            }
+        }
+    });
+    res.end( );
+});
+
+generateImage = function( n ) {
+    var imagename = path.join(tempdir,""+n+".png");
+    var im;
+    var dataIm;
+    var result = gm(200, 50, "#EEEEEE");
+    result.font( 'ps:helvetica' );
+    result.fontSize( '20' );
+    result.drawText( 10, 30, n ).write(imagename,function(err){
+        if (err) {
+            console.log(err);
+        }
+        else {
+            dataIm = fs.readFileSync(imagename); 
+            return "data:image/png; base64, " + dataIm.toString( 'base64' );
+            //console.log( im );
+            //return im;
+        }
+    });
+}
+
+app.get( '/vote', function( req, res ) {
+    var result = { };
+    var imagename, im, dataIm, resultIm;
+    
+    connection.query( 'SELECT n as n, first as date FROM `date-results-view` WHERE n = ( SELECT MAX( n ) FROM `date-results-view` )', function( err, data ) {
+        if ( err ) {
+            console.log( err );
+        }
+        else {
+            var date = {};
+            var n = data[0].n;
+            
+            date['date'] = data[0].date;
+            
+            imagename = path.join(tempdir,""+n+".png");
+            var resultIm = gm(200, 50, "#EEEEEE");
+            resultIm.font( 'ps:helvetica' );
+            resultIm.fontSize( '20' );
+            resultIm.drawText( 10, 30, n ).write(imagename,function(err){
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    dataIm = fs.readFileSync(imagename); 
+                    date['n'] = "data:image/png; base64, " + dataIm.toString( 'base64' );
+                }
+            });
+            result['date'] = date;
+            
+            connection.query( 'SELECT n as n, second as place FROM `place-results-view` WHERE n = ( SELECT MAX(n) FROM `place-results-view`)', function( err, data ) {
+                if ( err ) {
+                    console.log( err );
+                }
+                else {
+                    var place = {};
+                    place['place'] = data[0].place;
+                    n = data[0].n;
+                    
+                    imagename = path.join(tempdir,""+n+".png");
+                    resultIm = gm(200, 50, "#EEEEEE");
+                    resultIm.font( 'ps:helvetica' );
+                    resultIm.fontSize( '20' );
+                    resultIm.drawText( 10, 30, n ).write(imagename,function(err){
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            dataIm = fs.readFileSync(imagename); 
+                            place['n'] = "data:image/png; base64, " + dataIm.toString( 'base64' );
+                        }
+                    });
+                    result['place'] = place;
+                    
+                    
+                    connection.query( 'SELECT n as n, third as present FROM `present-results-view` WHERE n = ( SELECT MAX(n) FROM `present-results-view`)', function( err, data ) {
+                        if ( err ) {
+                            console.log( err );
+                        }
+                        else {
+                            console.log( data[0].present );
+                            var present = {};
+                            present['present'] = data[0].present;
+                            result['present'] = present;
+                            res.send( JSON.stringify( result ) );
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
 var port = process.env.port || 8080;
 var server = app.listen( port, function( req, res ) {
   var host = server.address().address,
