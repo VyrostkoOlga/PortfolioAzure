@@ -62,4 +62,7 @@ window.onload = function( ) {
             getResults( );
         }
     }, 1000);
+    setInterval(function() { 
+        getResults( );
+    }, 10000);
 };
