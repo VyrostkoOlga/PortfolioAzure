@@ -64,5 +64,5 @@ window.onload = function( ) {
     }, 1000);
     setInterval(function() { 
         getResults( );
-    }, 10000);
+    }, 3000);
 };
